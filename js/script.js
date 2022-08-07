@@ -46,15 +46,16 @@ for(const juego of juegos){
         localStorage.setItem("carrito",JSON.stringify(carrito));
         document.getElementById("agregado").innerHTML= "";
         for(let i=0;i<carrito.length;i++){
-            const idDelete = `idDel${i+1}`;
+            const idDelete = `idDel${i}`;
             document.getElementById("agregado").innerHTML += `<div>
             <h2>${carrito[i].nombre}</h2> <button id=${idDelete} ">Sacar juego</button></div>` 
         }
         for(let i=0;i<agregado.children.length;i++){
-            const idDelete = `idDel${i+1}`;
+            const idDelete = `idDel${i}`;
             let borrar = document.getElementById(idDelete) ;
             borrar.addEventListener("click",()=>{
-                agregado.children[i].parentElement.removeChild(agregado.children[i]);
+               borrarChild = borrar.parentElement.parentElement;
+               borrarChild.removeChild(borrar.parentElement);
             })
         }
         
@@ -63,17 +64,17 @@ for(const juego of juegos){
 
 }
 for(let i=0;i<carrito.length;i++){
-    const idDelete = `idDel${i+1}`;
+    const idDelete = `idDel${i}`;
     document.getElementById("agregado").innerHTML += `<div>
     <h2>${carrito[i].nombre}</h2> <button id=${idDelete} ">Sacar juego</button></div>` 
 }
 
 for(let i=0;i<agregado.children.length;i++){
-    const idDelete = `idDel${i+1}`;
+    const idDelete = `idDel${i}`;
     let borrar = document.getElementById(idDelete) ;
     borrar.addEventListener("click",()=>{
-        console.log(i)
-        agregado.children[i].parentElement.removeChild(agregado.children[i]);
+        borrarChild = borrar.parentElement.parentElement;
+        borrarChild.removeChild(borrar.parentElement);
      
     })
 }
