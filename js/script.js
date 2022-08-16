@@ -15,6 +15,13 @@ const juegos = [
 const producto = document.querySelector(".tab-content");
 const agregado = document.querySelector("#agregado");
 
+function eliminarProducto(id) {
+    let indice = carrito.findIndex((el) => el.id === id);
+    if(indice != -1)  {     
+      carrito.splice(indice, 1);
+     
+      }}
+
 for(const juego of juegos){
     const idCarrito = `idCart${juego.id}`;
     juegoLista = document.createElement("div");
@@ -39,6 +46,14 @@ producto.appendChild(juegoLista)
 for(const juego of juegos){
     const idCarrito = `idCart${juego.id}`;
     document.getElementById(idCarrito).onclick=()=>{
+      Swal.fire({
+            title: 'Genial',
+            text: `Agregaste ${juego.nombre} a tu carrito`,
+            imageUrl: `${juego.img}`,
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+          })
         carrito.push(juego);
         document.getElementById("numCarrito").innerHTML = carrito.length;
         const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
@@ -56,6 +71,9 @@ for(const juego of juegos){
             borrar.addEventListener("click",()=>{
                borrarChild = borrar.parentElement.parentElement;
                borrarChild.removeChild(borrar.parentElement);
+               console.log(carrito[i].id-1)
+                carrito.splice(carrito[i].id-1,1);
+               console.log(carrito);
             })
         }
         
@@ -75,7 +93,11 @@ for(let i=0;i<agregado.children.length;i++){
     borrar.addEventListener("click",()=>{
         borrarChild = borrar.parentElement.parentElement;
         borrarChild.removeChild(borrar.parentElement);
-     
+        console.log(i);
+        carrito.splice(i,1);
+        
+        //eliminarProducto(carrito[i].id);
+        console.log(carrito);
     })
 }
 

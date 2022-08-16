@@ -117,13 +117,10 @@ form.navbar-form button {
 .cart-icon {
     background-color: #40bea7;
     color:#fff;
-    padding: 10px 15px;
     width: 40px;
     float: left;
 }
-.cart-icon a {
-    color: #ffffff
-}
+
 .cart-text {
     width: 115px;
     text-align: center;

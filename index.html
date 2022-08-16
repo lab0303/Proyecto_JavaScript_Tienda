@@ -10,7 +10,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Orani E-Shop</title>
+	<title>Game E-Shop</title>
 
 	<!-- Latest compiled and minified CSS -->
 
@@ -72,8 +72,45 @@
                     <div class="cart">
 
                         <div class="cart-icon">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-shopping-cart"></i></button>
+                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <table class="table" style="color: black">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">First</th>
+                                            <th scope="col">Last</th>
+                                            <th scope="col">Handle</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+                            </div>
 
-                            <a href=""><i class="fa fa-shopping-cart"></i></a>
+                            
 
                         </div>
 
@@ -159,7 +196,7 @@
 
     
     <div  ><h3 style="color: red">Agregados</h3></div>
-    <div id="agregado"></div>
+    <div id="agregado" ></div>
 
     
 
@@ -177,6 +214,9 @@
         </div>
 
     </div>
+    <!-- Sweet Alert Library -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
 	<!-- jQuery Library -->
 
