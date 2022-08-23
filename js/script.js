@@ -3,84 +3,101 @@ document.getElementById("numCarrito").innerHTML = carrito.length;
 const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
 document.getElementById("totalCarrito").innerHTML = (total);
 
-const juegos = [
-    { id: 1, nombre: "PES2022", plataforma: "PS5" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGxYXYSOW6iwTeo17vDBO56SnJMZzndtJ5Xg&usqp=CAU" },
-    { id: 2, nombre: "CALL OF DUTY", plataforma: "PC" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDk2pFlpiZb0ZIBlrMR4Cq6wbuuDsykUdiCg&usqp=CAU" },
-    { id: 3, nombre: "FIFA2022", plataforma: "XBOX" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTpMLvgEH-5UXS879CqlRg0LNBo6Nbt9EBjA&usqp=CAU" },
-    { id: 4, nombre: "UFC4", plataforma: "PC" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY6EfLJKF0UbAiEIIv4Y8iZDXawYQf7lnr_w&usqp=CAU" },
-    { id: 5, nombre: "GOW4", plataforma: "PS5" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP5t7VX02TezGm3qSd30yoIY_GbqmPbZ2TGA&usqp=CAU" },
-    { id: 6, nombre: "HALO", plataforma: "XBOX" , precio : 60, img :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYaBUyir66dhkSFuqSgwabMD2CHB7gXoqqKA&usqp=CAU" },
-];
+const juegos = async()=>{
+    const resp = await fetch("./js/juegos.json");
+    const data = await resp.json();
+    for(const juego of data){
+        const idCarrito = `idCart${juego.id}`;
+        juegoLista = document.createElement("div");
+        juegoLista.classList.add(`${juego.plataforma}`);
+        juegoLista.innerHTML = ` 
+        
+            <div class= "single-product">
+            <div class= "product-block">
+            <img src="${juego.img}" alt="pes22" class="thumbnail">
+            <div class="product-description text-center">
+                <p class="price">$ ${juego.precio}</p>
+                <p class="title">${juego.nombre}</p>
+                <p class="plataforma">${juego.plataforma}</p>
+                <button  id = ${idCarrito} class="btn btn-shop-category">Agregar al carrito</button>
+                </div>
+                </div>
+         </div>
+    `
+    producto.appendChild(juegoLista)
+    }
+    
+    for(const juego of data){
+        const idCarrito = `idCart${juego.id}`;
+        document.getElementById(idCarrito).onclick=()=>{
+         
+            if(carrito.includes(juego)){
+                Swal.fire(`Ya tienes ${juego.nombre} en el carrito`)
+            }else{
+                Swal.fire({
+                    title: 'Genial',
+                    text: `Agregaste ${juego.nombre} a tu carrito`,
+                    imageUrl: `${juego.img}`,
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: 'Custom image',
+                  })
+                carrito.push(juego);
+            }
+            
+            document.getElementById("numCarrito").innerHTML = carrito.length;
+            const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
+            document.getElementById("totalCarrito").innerHTML = (total);
+            localStorage.setItem("carrito",JSON.stringify(carrito));
+            document.getElementById("agregado").innerHTML= "";
+      
+            // for para agregar al carrito     
+      
+            for(let i=0;i<carrito.length;i++){
+                const idDelete = `idDel${i}`;
+                document.getElementById("agregado").innerHTML += `<div>
+                <h2>${carrito[i].nombre}</h2> <button id=${idDelete} ">Sacar juego</button></div>` 
+            }
+            for(let i=0;i<agregado.children.length;i++){
+                const idDelete = `idDel${i}`;
+                let borrar = document.getElementById(idDelete) ;
+                borrar.addEventListener("click",()=>{
+                    Swal.fire({
+                    title: 'Estas seguro de borrar?',
+                    text: "No podras revertir esto",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, borrar'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        borrarChild = borrar.parentElement.parentElement;
+                        borrarChild.removeChild(borrar.parentElement);
+                        let indice = carrito.indexOf(carrito[i]);
+                         const nuevo = carrito.splice(indice,1);
+                         document.getElementById("numCarrito").innerHTML = carrito.length;
+                        const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
+                        document.getElementById("totalCarrito").innerHTML = (total);
+                        localStorage.setItem("carrito",JSON.stringify(carrito));
+                      Swal.fire(
+                        'Borrado!',
+                        `El juego fue borrado`,
+                        'success'
+                      )
+                    }
+                  })  
+                })
+            }  
+        }
+    } 
+}
+
+juegos()
 
 const producto = document.querySelector(".tab-content");
 const agregado = document.querySelector("#agregado");
 
-function eliminarProducto(id) {
-    let indice = carrito.findIndex((el) => el.id === id);
-    if(indice != -1)  {     
-      carrito.splice(indice, 1);
-     
-      }}
-
-for(const juego of juegos){
-    const idCarrito = `idCart${juego.id}`;
-    juegoLista = document.createElement("div");
-    juegoLista.classList.add(`${juego.plataforma}`);
-    juegoLista.innerHTML = ` 
-    
-        <div class= "single-product">
-        <div class= "product-block">
-        <img src="${juego.img}" alt="pes22" class="thumbnail">
-        <div class="product-description text-center">
-            <p class="price">$ ${juego.precio}</p>
-            <p class="title">${juego.nombre}</p>
-            <p class="plataforma">${juego.plataforma}</p>
-            <button  id = ${idCarrito} class="btn btn-shop-category">Agregar al carrito</button>
-            </div>
-            </div>
-     </div>
-`
-producto.appendChild(juegoLista)
-}
-
-for(const juego of juegos){
-    const idCarrito = `idCart${juego.id}`;
-    document.getElementById(idCarrito).onclick=()=>{
-      Swal.fire({
-            title: 'Genial',
-            text: `Agregaste ${juego.nombre} a tu carrito`,
-            imageUrl: `${juego.img}`,
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
-          })
-        carrito.push(juego);
-        document.getElementById("numCarrito").innerHTML = carrito.length;
-        const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
-        document.getElementById("totalCarrito").innerHTML = (total);
-        localStorage.setItem("carrito",JSON.stringify(carrito));
-        document.getElementById("agregado").innerHTML= "";
-        for(let i=0;i<carrito.length;i++){
-            const idDelete = `idDel${i}`;
-            document.getElementById("agregado").innerHTML += `<div>
-            <h2>${carrito[i].nombre}</h2> <button id=${idDelete} ">Sacar juego</button></div>` 
-        }
-        for(let i=0;i<agregado.children.length;i++){
-            const idDelete = `idDel${i}`;
-            let borrar = document.getElementById(idDelete) ;
-            borrar.addEventListener("click",()=>{
-               borrarChild = borrar.parentElement.parentElement;
-               borrarChild.removeChild(borrar.parentElement);
-               console.log(carrito[i].id-1)
-                carrito.splice(carrito[i].id-1,1);
-               console.log(carrito);
-            })
-        }
-        
-        
-    }
-
-}
 for(let i=0;i<carrito.length;i++){
     const idDelete = `idDel${i}`;
     document.getElementById("agregado").innerHTML += `<div>
@@ -91,13 +108,32 @@ for(let i=0;i<agregado.children.length;i++){
     const idDelete = `idDel${i}`;
     let borrar = document.getElementById(idDelete) ;
     borrar.addEventListener("click",()=>{
-        borrarChild = borrar.parentElement.parentElement;
+        Swal.fire({
+            title: 'Estas seguro de borrar?',
+            text: "No podras revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, borrar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                borrarChild = borrar.parentElement.parentElement;
         borrarChild.removeChild(borrar.parentElement);
-        console.log(i);
-        carrito.splice(i,1);
         
-        //eliminarProducto(carrito[i].id);
-        console.log(carrito);
+        let indice = carrito.indexOf(carrito[i]);
+                const nuevo = carrito.splice(indice,1);
+                document.getElementById("numCarrito").innerHTML = carrito.length;
+                const total = carrito.reduce((acum,juego)=> acum + (juego.precio),0);
+                document.getElementById("totalCarrito").innerHTML = (total);
+                localStorage.setItem("carrito",JSON.stringify(carrito));
+                Swal.fire(
+                    'Borrado!',
+                    `El juego fue borrado`,
+                    'success'
+              )
+            }
+          })
     })
 }
 
@@ -160,3 +196,5 @@ Array.from(title).forEach((el, i)=>{
 })
 } 
 );
+
+
